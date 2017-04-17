@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+   <android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    card_view:cardCornerRadius="4dp"
+    android:layout_margin="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#2196F3"
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#acd546"
+            android:text="Please enter the code sent to your email id"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/white"
+            android:textSize="15dp"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="It may take some time to get the code on email id.."
+            android:gravity="center_vertical"
+            android:textSize="11dp"
+            android:layout_below="@id/title"
+            android:layout_marginTop="12dp"
+            android:textColor="#CFD8DC"
+            android:layout_marginLeft="8dp"/>
+
+
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="20dp"
+           android:orientation="vertical">
+           <android.support.design.widget.TextInputLayout
+               android:layout_height="wrap_content"
+               android:layout_width="match_parent"
+               android:id="@+id/codetextet">
+               <EditText
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/codeEt"
+                   android:textColor="#000000"
+                   android:hint="Enter Code"
+                   android:textSize="50dp"
+                   android:gravity="center"
+                   android:textColorHighlight="#000000"/>
+           </android.support.design.widget.TextInputLayout>
+       </LinearLayout>
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:weightSum="2"
+           android:padding="8dp"
+           android:layout_marginTop="25dp"
+           >
+           <Button
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:text="Verify"
+               android:id="@+id/verifyBtn"
+               android:textColor="#ffffff"
+               android:background="#64DD17"/>
+           <Button
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:text="Resend"
+               android:id="@+id/resendBtn"
+               android:layout_marginLeft="5dp"
+               android:background="#AA00FF"
+               android:textColor="#ffffff"/>
+       </LinearLayout>
+    </LinearLayout>
+   </android.support.v7.widget.CardView>

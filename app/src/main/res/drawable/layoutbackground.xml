@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <item>
+        <!--For Border and border-radius-->
+        <shape>
+            <stroke
+                android:color="#B0BEC5"
+                android:width="3dp">
+            </stroke>
+            <corners
+                android:radius="10dp">
+            </corners>
+
+
+            <!--used to set the second item inside the border-->
+            <padding
+                android:left="1dp"
+                android:bottom="1dp"
+                android:right="1dp"
+                android:top="1dp">
+            </padding>
+        </shape>
+    </item>
+    <item>
+        <!--the shape and its properties which is to be palced inside the border&ndash;&gt;
+    -->
+        <shape>
+        <solid
+        android:color="#ffffff"
+        >
+
+    </solid>
+
+    <corners
+        android:radius="10dp"
+        >
+
+    </corners>
+    <stroke
+        android:color="#B0BEC5"
+        android:width="2dp">
+    </stroke>
+
+    </shape>
+    </item>
+</layer-list>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <item>
+        <!--For Border and border-radius-->
+        <shape
+            android:shape="oval"
+
+            >
+
+            <solid android:color="#ffffff" />
+            <!--android:color="#9FA8DA"-->
+
+            <stroke
+                android:width="6dp"
+                android:color="#C5CAE9"/>
+            <!-- android:color="#C5CAE9"-->
+
+
+            </shape>
+    </item>
+    <item
+        android:drawable="@drawable/reg1"
+                >
+        <!--the shape and its properties which is to be palced inside the border-->
+
+    </item>
+</layer-list>

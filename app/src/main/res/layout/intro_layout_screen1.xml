@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E91E63">
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/event"
+        android:layout_marginTop="34dp"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentEnd="false"
+
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:text="Lets you explore the upcoming events as well register on them"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:layout_below="@+id/imageView"
+        android:textAlignment="center"
+
+        android:paddingRight="2dp"
+        android:paddingLeft="2dp"
+        android:textSize="20sp" />
+
+</RelativeLayout>
