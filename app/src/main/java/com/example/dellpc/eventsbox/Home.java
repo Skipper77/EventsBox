@@ -76,9 +76,9 @@ public class Home extends AppCompatActivity
         toggle.syncState();
 
          navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        viewPager=(ViewPager)findViewById(R.id.sliderContainer);
-        viewPager.setAdapter(new CustomSwipeAdapter(this));
+         navigationView.setNavigationItemSelectedListener(this);
+         viewPager=(ViewPager)findViewById(R.id.sliderContainer);
+         viewPager.setAdapter(new CustomSwipeAdapter(this));
         final View headerLayout = navigationView.getHeaderView(0);
         layout=headerLayout.findViewById(R.id.click_me_to_login);
         nameView=(TextView) headerLayout.findViewById(R.id.nameView);
@@ -144,14 +144,17 @@ public class Home extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                Iterable<DataSnapshot> children=dataSnapshot.getChildren();
-                //        setUrl(children);
-                for(DataSnapshot child:children){
-                    Event event=child.getValue(Event.class);
-                    eventList.add(event);
-                }
-                // value = dataSnapshot.getValue().toString();
-                Log.d(TAG, "Value is: " + value);
+                eventList.clear();
+                if (dataSnapshot.exists()) {
+
+                    Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                    //        setUrl(children);
+                    for (DataSnapshot child : children) {
+                        Event event = child.getValue(Event.class);
+                        eventList.add(event);
+                    }
+                    // value = dataSnapshot.getValue().toString();
+                    Log.d(TAG, "Value is: " + value);
                 /*event=new Event();
                 event.setImageUrl(value);
                 event.setTitle("Poster Making");
@@ -166,11 +169,12 @@ public class Home extends AppCompatActivity
                 eventList.add(event2);
                 eventList.add(event2);*/
 
-                Log.d("Inside ref.onDatachange","After this HomeadapterLine");
-                HomeEventsAdapter homeEventsAdapter=new HomeEventsAdapter(self,eventList);
-                rv.setAdapter(homeEventsAdapter);
-                Log.d("already set the adapter","ths is after the setAdapter");
+                    Log.d("Inside ref.onDatachange", "After this HomeadapterLine");
+                    HomeEventsAdapter homeEventsAdapter = new HomeEventsAdapter(self, eventList);
+                    rv.setAdapter(homeEventsAdapter);
+                    Log.d("already set the adapter", "ths is after the setAdapter");
 
+                }
             }
 
             @Override
@@ -179,6 +183,7 @@ public class Home extends AppCompatActivity
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
+
 
 
     }

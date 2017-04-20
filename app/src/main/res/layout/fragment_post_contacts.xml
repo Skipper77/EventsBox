@@ -1,53 +1,71 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.dellpc.eventsbox.PostContactsFragment"
-    android:padding="6dp"
-    android:background="#FFC107">
 
+    android:background="#8D6E63">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
+
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="3dp">
+
 
             <android.support.v7.widget.CardView
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:padding="5dp"
-                android:elevation="5dp"
-                card_view:cardCornerRadius="5dp">
+                android:layout_height="wrap_content"
+
+
+                android:elevation="10dp"
+                card_view:cardCornerRadius="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="3dp"
-                    android:orientation="horizontal">
+                    android:padding="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:padding="3dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
                             android:src="@drawable/contacts_icon"
+                            android:scaleType="centerCrop"
                             />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:padding="3dp"
-                        android:orientation="vertical">
+                               android:layout_weight="1"
+                        >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="3dp"
+                             android:orientation="vertical"
+                            >
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -74,6 +92,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Mobile No"
+                                android:inputType="number"
                                 android:background="@drawable/input_outline"
                                 android:padding="10dp"/>
 
@@ -93,50 +112,56 @@
                                 android:padding="10dp"/>
 
                         </LinearLayout>
-
+</LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
-        </LinearLayout>
 
-        <LinearLayout
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="3dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
 
-            <android.support.v7.widget.CardView
-                android:layout_height="match_parent"
+            android:elevation="10dp"
+            card_view:cardCornerRadius="10dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:padding="5dp"
-                android:elevation="5dp"
-                card_view:cardCornerRadius="5dp">
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/contacts_icon"
+                        android:scaleType="centerCrop"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:padding="3dp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:padding="3dp">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/contacts_icon"
-                            />
-                    </LinearLayout>
-
+                    android:layout_weight="1"
+                    >
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:padding="3dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        >
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -163,6 +188,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Mobile No"
+                                android:inputType="number"
                                 android:background="@drawable/input_outline"
                                 android:padding="10dp"/>
 
@@ -182,50 +208,54 @@
                                 android:padding="10dp"/>
 
                         </LinearLayout>
-
                     </LinearLayout>
-
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </LinearLayout>
 
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="3dp">
+            android:layout_height="wrap_content"
 
-            <android.support.v7.widget.CardView
-                android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:elevation="10dp"
+            card_view:cardCornerRadius="10dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:padding="5dp"
-                android:elevation="5dp"
-                card_view:cardCornerRadius="5dp">
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/contacts_icon"
+                        android:scaleType="centerCrop"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:padding="3dp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:padding="3dp">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/contacts_icon"
-                            />
-                    </LinearLayout>
-
+                    android:layout_weight="1"
+                    >
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:padding="3dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        >
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -252,6 +282,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Mobile No"
+                                android:inputType="number"
                                 android:background="@drawable/input_outline"
                                 android:padding="10dp"/>
 
@@ -271,16 +302,17 @@
                                 android:padding="10dp"/>
 
                         </LinearLayout>
-
                     </LinearLayout>
-
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </LinearLayout>
 
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
+
 
 
     </LinearLayout>
+    </ScrollView>
 
-</ScrollView>
+</RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

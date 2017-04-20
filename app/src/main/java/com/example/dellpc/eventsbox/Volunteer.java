@@ -46,4 +46,12 @@ public class Volunteer {
         this.student_phoneno = student_phoneno;
     }
 
+    @Override
+    public String toString() {
+        return "Volunteer{" +
+                "student_name='" + student_name + '\'' +
+                ", student_email='" + student_email + '\'' +
+                ", student_phoneno='" + student_phoneno + '\'' +
+                '}';
+    }
 }

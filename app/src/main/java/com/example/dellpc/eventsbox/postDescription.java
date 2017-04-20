@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -144,6 +145,9 @@ public class postDescription extends Fragment implements View.OnClickListener{
         endImageBtn=(Button)v.findViewById(R.id.End_date_picker);
         bannerBtn=(ImageButton)v.findViewById(R.id.Add_Banner);
         registerCheckbox=(CheckBox)v.findViewById(R.id.registerCheckbox);
+
+        about.setMovementMethod(new ScrollingMovementMethod());
+        venue.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @Override

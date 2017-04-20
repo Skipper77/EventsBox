@@ -4,11 +4,13 @@ import android.net.Uri;
 
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
+
 /**
  * Created by DELL PC on 11-Apr-17.
  */
 
-public class Event {
+public class Event implements Serializable{
     private String eventId;
     private String title;
     private String societyBelongTo;
@@ -111,7 +113,7 @@ public class Event {
         this.status = status;
     }
 
-    public boolean isHasRegisterOption() {
+    public boolean getHasRegisterOption() {
         return hasRegisterOption;
     }
 
@@ -172,4 +174,24 @@ public class Event {
         return imageUri;
     }
 
+    @Override
+    public String toString() {
+        return "Event{" +
+                "eventId='" + eventId + '\'' +
+                ", title='" + title + '\'' +
+                ", societyBelongTo='" + societyBelongTo + '\'' +
+                ", venue='" + venue + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", volunteerListId='" + volunteerListId + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", imageUri=" + imageUri +
+                ", status=" + status +
+                ", hasRegisterOption=" + hasRegisterOption +
+                ", societyBelongTo_status='" + societyBelongTo_status + '\'' +
+                ", startDate_status='" + startDate_status + '\'' +
+                ", endDate_status='" + endDate_status + '\'' +
+                '}';
+    }
 }

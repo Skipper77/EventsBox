@@ -48,7 +48,7 @@
         <activity
             android:name=".PostEvent"
             android:label="@string/title_activity_post_event"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/Login_activity_theme"></activity>
     </application>
 
 </manifest>

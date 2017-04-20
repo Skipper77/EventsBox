@@ -5,4 +5,6 @@
     <color name="colorAccent">#303F9F</color>
     <color name="loginActivityBackground">#616161</color>
     <color name="loginColorPrimaryDark">#a60207</color>
+    <color name="registerBtnEnabled">#FBC02D</color>
+    <color name="registerBtnNotEnabled">#FFF9C4</color>
 </resources>

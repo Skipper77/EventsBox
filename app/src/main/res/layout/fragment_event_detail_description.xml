@@ -2,35 +2,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
+
+
     tools:context="com.example.dellpc.eventsbox.EventDetailDescription"
     >
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+
+
     <!-- TODO: Update blank fragment layout -->
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="10dp"
+    android:padding="18dp"
     >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/eventlayoutbackground"
-        android:padding="5dp"
+        android:padding="10dp"
         android:layout_marginBottom="15dp">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/event_detail_title"
-            android:text="Title"
+            android:hint="Title"
+
             android:textColor="#000000"
             android:textSize="30dp"/>
     </LinearLayout>
@@ -39,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/eventlayoutbackground"
-        android:padding="6dp"
+        android:padding="10dp"
         android:orientation="vertical"
         android:layout_marginBottom="15dp">
         <TextView
@@ -47,7 +44,7 @@
             android:layout_height="wrap_content"
             android:text="About"
             android:textColor="#000000"
-            android:textSize="12dp"/>
+            android:textSize="25dp"/>
           <View
               android:layout_width="match_parent"
               android:layout_height="2dp"
@@ -57,20 +54,24 @@
           </View>
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="200dp"
             android:id="@+id/event_detail_description"
             android:hint="description"
-            android:textSize="10dp"
+            android:textSize="20dp"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            android:overScrollMode="always"
             android:textColor="#000000"
+            android:maxLines="1000"
             android:layout_marginTop="3dp"
-            android:scrollbars="vertical"/>
+            />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/eventlayoutbackground"
-        android:padding="6dp"
+        android:padding="10dp"
         android:orientation="vertical"
         android:layout_marginBottom="15dp">
         <TextView
@@ -78,7 +79,7 @@
             android:layout_height="wrap_content"
             android:text="Venue"
             android:textColor="#000000"
-            android:textSize="12dp"/>
+            android:textSize="25dp"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -88,19 +89,22 @@
         </View>
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="80dp"
             android:hint="Location"
             android:id="@+id/event_detail_location"
-            android:textSize="10dp"
+            android:textSize="20dp"
             android:layout_marginTop="3dp"
-            android:scrollbars="vertical"/>
+            android:maxLines="100"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            android:overScrollMode="always"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/eventlayoutbackground"
-        android:padding="6dp"
+        android:padding="10dp"
         android:orientation="vertical"
         android:layout_marginBottom="15dp">
         <TextView
@@ -108,7 +112,7 @@
             android:layout_height="wrap_content"
             android:text="Date"
             android:textColor="#000000"
-            android:textSize="12dp"/>
+            android:textSize="25dp"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -127,7 +131,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Event Starting :"
-            android:textSize="10dp"
+            android:textSize="15dp"
             android:layout_marginTop="3dp"
             android:layout_weight="2"
             />
@@ -137,7 +141,7 @@
                 android:hint="sarting date"
                 android:layout_weight="1"
                 android:id="@+id/event_detail_startDate"
-                android:textSize="10dp"
+                android:textSize="18dp"
                 android:gravity="center"
                 android:layout_marginTop="3dp"
                 />
@@ -152,7 +156,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Event Ending :"
-                android:textSize="10dp"
+                android:textSize="15dp"
                 android:layout_marginTop="3dp"
                 android:layout_weight="2"
                 />
@@ -161,7 +165,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Event end date :"
                 android:layout_weight="1"
-                android:textSize="10dp"
+                android:textSize="18dp"
                 android:id="@+id/event_detail_endDate"
                 android:gravity="center"
                 android:layout_marginTop="3dp"
@@ -173,7 +177,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/eventlayoutbackground"
-        android:padding="6dp"
+        android:padding="10dp"
         android:orientation="vertical"
         android:layout_marginBottom="15dp">
         <TextView
@@ -181,7 +185,7 @@
             android:layout_height="wrap_content"
             android:text="Society"
             android:textColor="#000000"
-            android:textSize="12dp"/>
+            android:textSize="25dp"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -192,10 +196,10 @@
         </View>
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:hint="Society"
             android:id="@+id/event_detail_society"
-            android:textSize="10dp"
+            android:textSize="20dp"
             android:layout_marginTop="3dp"
            />
     </LinearLayout>
@@ -203,6 +207,6 @@
 
 </LinearLayout>
 
-</ScrollView>
-    </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>
+
+

@@ -61,6 +61,7 @@ public class PostEvent extends AppCompatActivity {
     HashMap<String,Event>dataMapFromDescFrag;
     HashMap<String,Volunteer>dataMapFromPostContactFrag;
     private View view2;
+    private PostEvent self;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +83,7 @@ public class PostEvent extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
+        self=this;
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
@@ -210,6 +211,7 @@ public class PostEvent extends AppCompatActivity {
                if(dataMapFromDescFrag!=null){
 
                    newEvent=dataMapFromDescFrag.get("event");
+                   System.out.println(newEvent.toString());
                   Uri uri= newEvent.getImageUri();
                //Uri downloadUri;
 
@@ -255,12 +257,16 @@ public class PostEvent extends AppCompatActivity {
         DatabaseReference contactref=mref.child("contacts").push().getRef();
         String contactKey=contactref.getKey();
         newEvent.setVolunteerListId(contactKey);
+        System.out.println(newEvent.toString());
+
         String pushKey=pushRef.getKey();
+
         newEvent.setEventId(pushKey);
         mref.child("Events").child(pushKey).setValue(newEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(getApplicationContext(), "Event done", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Successfully Posted the event", Toast.LENGTH_SHORT).show();
+                self.finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -281,6 +287,7 @@ public class PostEvent extends AppCompatActivity {
 
                    Snackbar.make(view2, "Replace with your own action", Snackbar.LENGTH_LONG)
                            .setAction("Action", null).show();
+                  System.out.println( databaseError.getDetails());
                }
 
            }

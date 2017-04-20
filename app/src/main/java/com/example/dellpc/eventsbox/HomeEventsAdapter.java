@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.MyViewHolder> {
     private ArrayList<Event> eventList;
     private Context ctx;
-    private Event d;
+  //  private Event d;
 
     public HomeEventsAdapter(Context ctx, ArrayList<Event> eventList){
       this.ctx=ctx;
@@ -33,7 +33,7 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-         d=eventList.get(position);
+       Event  d=eventList.get(position);
         //Log.d("Product position",d.getImageUrl());
         holder.home_row_list_title.setText(d.getTitle());
         holder.home_row_list_society.setText(d.getSocietyBelongTo());
@@ -66,8 +66,9 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.My
                 @Override
                 public void onClick(View v) {
                     Intent intent =new Intent(ctx,EventDetails.class);
-                    String url=d.getImageUrl();
-                    intent.putExtra("iurl",url);
+                   // String url=d.getImageUrl();
+                    Event event=eventList.get(getLayoutPosition());
+                    intent.putExtra("ievent",event);
                     ctx.startActivity(intent);
                 }
             });

@@ -1,9 +1,13 @@
 package com.example.dellpc.eventsbox;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,7 +25,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class EventDetails extends AppCompatActivity {
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+
+public class EventDetails extends AppCompatActivity implements View.OnClickListener{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -38,10 +50,23 @@ public class EventDetails extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     private CollapsingToolbarLayout collapsingToolbarLayout;
-  private ImageView profile_id;
+    private ImageView profile_id;
+    private Event event;
+    private CoordinatorLayout.LayoutParams params;
+
+    private ArrayList<Volunteer> volunteerList=new ArrayList<>();
+    private FloatingActionButton registerOnThisEvent;
+    //////////////////////////////////
+    private PrefManager prefManager;
+    private FirebaseDatabase database;
+    private DatabaseReference mref;
+    private FirebaseAuth mAuth;
+    private String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        prefManager=new PrefManager(this);
         setContentView(R.layout.activity_event_details);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -49,7 +74,12 @@ public class EventDetails extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-
+         database=FirebaseDatabase.getInstance();
+         mref=database.getReference().child("registeredUsers");
+         mAuth=FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser()!=null){
+            uid=mAuth.getCurrentUser().getUid();
+        }
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle("AKGEC");
@@ -69,18 +99,49 @@ public class EventDetails extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
+        this.mapping();
         this.getEvent();
+        this.listeners();
+    }
+
+    private void mapping(){
 
 
+        registerOnThisEvent=(FloatingActionButton)findViewById(R.id.registerEventBTN);
+        params=(CoordinatorLayout.LayoutParams)registerOnThisEvent.getLayoutParams();
+    }
 
+    private void listeners(){
+        registerOnThisEvent.setOnClickListener(this);
     }
      private void getEvent(){
-         Bundle extras=getIntent().getExtras();
-         String url=(String)extras.get("iurl");
-         PiccasoClient.downloadImage(this,url,profile_id);
+       //  Bundle extras=getIntent().getExtras();
+         event=(Event)getIntent().getSerializableExtra("ievent");
+        if(event.getHasRegisterOption()&&!(prefManager.isAdminLogIn())&&prefManager.isLoggedIn()){
+            /*registerOnThisEvent.setEnabled(true);
+            registerOnThisEvent.setBackgroundColor((ContextCompat.getColor(this, R.color.registerBtnEnabled)));
+       */ params.setBehavior(new FloatingActionButton.Behavior());
+            registerOnThisEvent.requestLayout();
+            registerOnThisEvent.setVisibility(View.VISIBLE);
 
+        }
+        else{
+            /*registerOnThisEvent.setEnabled(false);
+            registerOnThisEvent.setBackgroundColor((ContextCompat.getColor(this, R.color.registerBtnNotEnabled)));
+            */
+            params.setBehavior(null);
+            registerOnThisEvent.requestLayout();
+            registerOnThisEvent.setVisibility(View.GONE);
+
+
+        }
+
+         PiccasoClient.downloadImage(this,event.getImageUrl(),profile_id);
+         collapsingToolbarLayout.setTitle(event.getTitle());
+
+          // getContacts();
      }
+
 
     private void dynamicToolbarColor() {
 
@@ -124,6 +185,31 @@ public class EventDetails extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        final ProgressDialog progressDialog=new ProgressDialog(this);
+        progressDialog.setTitle("Registering");
+        progressDialog.setMessage("Please Wait..");
+        progressDialog.show();
+        mref.child(event.getEventId()).child(uid).setValue(mAuth.getCurrentUser().getEmail()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                progressDialog.dismiss();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                progressDialog.dismiss();
+                e.printStackTrace();
+            }
+        });
+
+
     }
 
     /**
@@ -177,8 +263,11 @@ public class EventDetails extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
            // return PlaceholderFragment.newInstance(position + 1);
             switch(position){
-                case 0: return EventDetailDescription.newInstance(null,null);
-                case 1: return EventDetailsContact.newInstance(null,null);
+                case 0:
+                    return EventDetailDescription.newInstance(event);
+                case 1:
+
+                    return EventDetailsContact.newInstance(event.getVolunteerListId());
             }
             return null;
         }
