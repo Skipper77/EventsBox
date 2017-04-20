@@ -147,11 +147,12 @@ public class Home extends AppCompatActivity
                 Iterable<DataSnapshot> children=dataSnapshot.getChildren();
                 //        setUrl(children);
                 for(DataSnapshot child:children){
-                    value=child.getValue(String.class);
+                    Event event=child.getValue(Event.class);
+                    eventList.add(event);
                 }
                 // value = dataSnapshot.getValue().toString();
                 Log.d(TAG, "Value is: " + value);
-                event=new Event();
+                /*event=new Event();
                 event.setImageUrl(value);
                 event.setTitle("Poster Making");
                 event.setSocietyBelongTo("Footprints");
@@ -163,7 +164,8 @@ public class Home extends AppCompatActivity
                 eventList.add(event2);
                 eventList.add(event2);
                 eventList.add(event2);
-                eventList.add(event2);
+                eventList.add(event2);*/
+
                 Log.d("Inside ref.onDatachange","After this HomeadapterLine");
                 HomeEventsAdapter homeEventsAdapter=new HomeEventsAdapter(self,eventList);
                 rv.setAdapter(homeEventsAdapter);

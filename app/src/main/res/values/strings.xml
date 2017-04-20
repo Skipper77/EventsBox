@@ -33,14 +33,17 @@
     <string name="title_activity_post_event">PostEvent</string>
 
 
-    <!--Strings related to PostEvent-->
+    <!--Strings related to PostEventDescription-->
     <string name="title">Title</string>
     <string name="desc">Description</string>
     <string name="society">Society</string>
     <string name="venue">Venue</string>
     <string name="fromDate">FromDate</string>
     <string name="endDate">EndDate</string>
+    <string name="bannerImage">BannerImage</string>
     <string name="registerOption">RegisterOption</string>
+<!--Strings related to PostEventContacts-->
+
 
 
 </resources>

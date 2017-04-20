@@ -1,23 +1,37 @@
 package com.example.dellpc.eventsbox;
 
-import android.support.design.widget.TabLayout;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.HashMap;
 
 public class PostEvent extends AppCompatActivity {
 
@@ -35,16 +49,34 @@ public class PostEvent extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
+    ///////////////////////////////////////////
+    private FirebaseDatabase database;
+    private DatabaseReference mref;
+    private FirebaseStorage mstore;
+    private StorageReference mstorageRef;
+    private postDescription descFrag;
+    private PostContactsFragment postContactsFragmentt;
+    private Event newEvent;
+    private Volunteer volunteer;
+    HashMap<String,Event>dataMapFromDescFrag;
+    HashMap<String,Volunteer>dataMapFromPostContactFrag;
+    private View view2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_post_event);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
+
+        database=FirebaseDatabase.getInstance();
+        mref=database.getReference();
+        mstore=FirebaseStorage.getInstance();
+        mstorageRef=mstore.getReference();
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
@@ -58,8 +90,8 @@ public class PostEvent extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                view2=view;
+                storeInDataBase();
             }
         });
 
@@ -140,9 +172,11 @@ public class PostEvent extends AppCompatActivity {
             //  return PlaceholderFragment.newInstance(position + 1);
             switch(position){
                 case 0:
-                    return postDescription.newInstance(null,null);
+                    descFrag= postDescription.newInstance(null,null);
+                    return descFrag;
                 case 1:
-                    return PostContactsFragment.newInstance(null,null);
+                    postContactsFragmentt= PostContactsFragment.newInstance(null,null);
+                    return postContactsFragmentt;
             }
             return null;
         }
@@ -163,5 +197,97 @@ public class PostEvent extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    public void storeInDataBase(){
+                System.out.println("in store in database");
+                dataMapFromDescFrag=descFrag.collectData();
+                dataMapFromPostContactFrag=postContactsFragmentt.collectContactsData();
+
+               if(dataMapFromDescFrag!=null){
+
+                   newEvent=dataMapFromDescFrag.get("event");
+                  Uri uri= newEvent.getImageUri();
+               //Uri downloadUri;
+
+                   //Database
+
+
+                   if(uri!=null){
+
+                  StorageReference filepath= mstorageRef.child("Photos").child(uri.getLastPathSegment());
+                       filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                           @Override
+                           public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                             @SuppressWarnings("VisibleForTests")
+                             Uri downloadUri=taskSnapshot.getDownloadUrl();
+                               System.out.println("in onsuccess");
+                               insertEvent(downloadUri);
+                           }
+                       }).addOnFailureListener(new OnFailureListener() {
+                           @Override
+                           public void onFailure(@NonNull Exception e) {
+                                 e.printStackTrace();
+                           }
+                       });
+
+
+               }
+
+
+
+
+    }
+    }
+
+    public void insertEvent(Uri downloaduri){
+       if(downloaduri!=null) {
+           newEvent.setImageUrl(downloaduri.toString());
+       }
+       else{
+           newEvent.setImageUrl(null);
+       }
+
+        DatabaseReference pushRef = mref.child("Events").push().getRef();
+        DatabaseReference contactref=mref.child("contacts").push().getRef();
+        String contactKey=contactref.getKey();
+        newEvent.setVolunteerListId(contactKey);
+        String pushKey=pushRef.getKey();
+        newEvent.setEventId(pushKey);
+        mref.child("Events").child(pushKey).setValue(newEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(getApplicationContext(), "Event done", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                      e.printStackTrace();
+            }
+        });
+
+
+       mref.child("contacts").child(contactKey).setValue(dataMapFromPostContactFrag, new DatabaseReference.CompletionListener() {
+           @Override
+           public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+               if(databaseError!=null){
+                   Snackbar.make(view2, "successfuly done", Snackbar.LENGTH_LONG)
+                           .setAction("Action", null).show();
+               }
+               else{
+
+                   Snackbar.make(view2, "Replace with your own action", Snackbar.LENGTH_LONG)
+                           .setAction("Action", null).show();
+               }
+
+           }
+
+       });
+
+
+
     }
 }

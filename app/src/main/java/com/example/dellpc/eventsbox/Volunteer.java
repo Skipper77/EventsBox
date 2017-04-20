@@ -6,18 +6,21 @@ package com.example.dellpc.eventsbox;
 
 public class Volunteer {
 
-    private String student_id;
+
     private String student_name;
     private String student_email;
     private String student_phoneno;
 
-    public String getStudent_id() {
-        return student_id;
+    public Volunteer(){
+
+    }
+    public Volunteer(String name,String phone,String email){
+        this.student_name=name;
+        this.student_phoneno=phone;
+        this.student_email=email;
     }
 
-    public void setStudent_id(String student_id) {
-        this.student_id = student_id;
-    }
+
 
     public String getStudent_name() {
         return student_name;

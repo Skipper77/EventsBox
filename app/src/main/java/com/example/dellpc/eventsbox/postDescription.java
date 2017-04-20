@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -36,6 +37,7 @@ public class postDescription extends Fragment implements View.OnClickListener{
 
     // TODO: Rename and change types of parameters
     private Button startImageBtn,endImageBtn;
+    private CheckBox registerCheckbox;
     private ImageButton bannerBtn;
     private EditText title;
     private EditText society;
@@ -50,7 +52,7 @@ public class postDescription extends Fragment implements View.OnClickListener{
     private PostEvent postEvent;
     private SimpleDateFormat dateFormatter;
     private static final int GALLERY_REQUEST=1;
-    private Uri uri;
+    private Uri uri=null;
 
     public postDescription() {
         // Required empty public constructor
@@ -141,6 +143,7 @@ public class postDescription extends Fragment implements View.OnClickListener{
         startImageBtn=(Button)v.findViewById(R.id.Start_date_picker);
         endImageBtn=(Button)v.findViewById(R.id.End_date_picker);
         bannerBtn=(ImageButton)v.findViewById(R.id.Add_Banner);
+        registerCheckbox=(CheckBox)v.findViewById(R.id.registerCheckbox);
     }
 
     @Override
@@ -161,25 +164,49 @@ public class postDescription extends Fragment implements View.OnClickListener{
         }
     }
 
-    public void collectData(){
-        HashMap<String,String> descFragDataMap=new HashMap<>();
+    public HashMap<String, Event> collectData(){
+        HashMap<String,Event> descFragDataMap=new HashMap<>();
         String mtitle=title.getText().toString();
         String mdesc=about.getText().toString();
         String mvenue=venue.getText().toString();
         String msociety=society.getText().toString();
         String mfromDate=sDate.getText().toString();
         String mEndDate=eDate.getText().toString();
+        boolean value=registerCheckbox.isChecked();
+        String mEndDate_mstatus=mEndDate+"_"+"True";
+        String mStartDate_mstatus=mfromDate+"_"+"True";
+        String msociety_mstatus=msociety+"_True";
+       /* String uri_to_String=null;
+        if(uri!=null)
+        {
+            uri_to_String=uri.toString();
+        }*/
+
 
         boolean checkResult= !TextUtils.isEmpty(mtitle)&&!TextUtils.isEmpty(mdesc)
                 &&!TextUtils.isEmpty(mvenue)&&!TextUtils.isEmpty(msociety)&&!TextUtils.isEmpty(mfromDate)&&!TextUtils.isEmpty(mEndDate);
 
+
         if(checkResult){
-            descFragDataMap.put("bv","bv");
+           /* descFragDataMap.put(getResources().getString(R.string.title),mtitle);
+            descFragDataMap.put(getResources().getString(R.string.desc),mdesc);
+            descFragDataMap.put(getResources().getString(R.string.venue),mvenue);
+            descFragDataMap.put(getResources().getString(R.string.society),msociety);
+            descFragDataMap.put(getResources().getString(R.string.fromDate),mfromDate);
+            descFragDataMap.put(getResources().getString(R.string.endDate),mEndDate);
+            descFragDataMap.put(getResources().getString(R.string.bannerImage),uri.toString());
+            return descFragDataMap;*/
+
+           Event event=new Event(mtitle,msociety,mvenue,mdesc,mfromDate,mEndDate,uri,true,value,msociety_mstatus,mStartDate_mstatus,mEndDate_mstatus);
+
+            descFragDataMap.put("event",event);
+            return descFragDataMap;
+
         }
         else{
             Toast.makeText(getActivity(),"Some Fields Are Empty",Toast.LENGTH_SHORT).show();
         }
 
-
+          return null;
     }
 }

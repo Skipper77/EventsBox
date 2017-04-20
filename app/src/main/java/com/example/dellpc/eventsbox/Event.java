@@ -1,21 +1,122 @@
 package com.example.dellpc.eventsbox;
 
-import java.util.ArrayList;
+import android.net.Uri;
+
+import com.google.firebase.database.Exclude;
 
 /**
  * Created by DELL PC on 11-Apr-17.
  */
 
 public class Event {
+    private String eventId;
     private String title;
     private String societyBelongTo;
     private String venue;
     private String description;
-    private String date;
-    private ArrayList<Volunteer> volunteerList;
+    private String startDate;
+    private String endDate;
+    private String volunteerListId;
     private String imageUrl;
+    private Uri imageUri;
+    private boolean status;
+    private boolean hasRegisterOption;
+
+    private String societyBelongTo_status;
+    private String startDate_status,endDate_status;
+
     public Event(){
 
+    }
+
+
+    public Event(String title, String societyBelongTo, String venue, String description, String startDate, String endDate, Uri imageUri, boolean status, boolean hasRegisterOption, String societyBelongTo_status, String startDate_status, String endDate_status) {
+        //this.eventId = eventId;
+        this.title = title;
+        this.societyBelongTo = societyBelongTo;
+        this.venue = venue;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        //this.volunteerList = volunteerList;
+
+
+        this.imageUri = imageUri;
+        this.status = status;
+        this.hasRegisterOption = hasRegisterOption;
+        this.societyBelongTo_status = societyBelongTo_status;
+        this.startDate_status = startDate_status;
+        this.endDate_status = endDate_status;
+    }
+
+
+
+    public void setImageUri(Uri imageUri) {
+        this.imageUri = imageUri;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getSocietyBelongTo_status() {
+        return societyBelongTo_status;
+    }
+
+    public void setSocietyBelongTo_status(String societyBelongTo_status) {
+        this.societyBelongTo_status = societyBelongTo_status;
+    }
+
+    public String getStartDate_status() {
+        return startDate_status;
+    }
+
+    public void setStartDate_status(String startDate_status) {
+        this.startDate_status = startDate_status;
+    }
+
+    public String getEndDate_status() {
+        return endDate_status;
+    }
+
+    public void setEndDate_status(String endDate_status) {
+        this.endDate_status = endDate_status;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public boolean isHasRegisterOption() {
+        return hasRegisterOption;
+    }
+
+    public void setHasRegisterOption(boolean hasRegisterOption) {
+        this.hasRegisterOption = hasRegisterOption;
     }
 
     public String getTitle() {
@@ -50,20 +151,8 @@ public class Event {
         this.description = description;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public ArrayList<Volunteer> getVolunteerList() {
-        return volunteerList;
-    }
-
-    public void setVolunteerList(ArrayList<Volunteer> volunteerList) {
-        this.volunteerList = volunteerList;
+    public void setVolunteerListId(String volunteerListId) {
+        this.volunteerListId = volunteerListId;
     }
 
     public String getImageUrl() {
@@ -73,4 +162,14 @@ public class Event {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public String getVolunteerListId() {
+        return volunteerListId;
+    }
+
+    @Exclude
+    public Uri getImageUri() {
+        return imageUri;
+    }
+
 }
