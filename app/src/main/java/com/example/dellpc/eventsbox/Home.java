@@ -2,6 +2,7 @@ package com.example.dellpc.eventsbox;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -27,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static android.content.ContentValues.TAG;
 
@@ -41,12 +43,26 @@ public class Home extends AppCompatActivity
     private FirebaseDatabase database;
     private DatabaseReference ref;
     private FirebaseAuth mAuth;
+    private static final String EMAIL="email";
+    private static final String MESSAGE="message";
+    private  NavigationView navigationView;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     private int REQUEST_CODE=0;
     String value;
     private Home self;
+    private PrefManager prefManager;
+
+     public Home(){
+
+     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        prefManager=new PrefManager(this);
+
+
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,7 +75,7 @@ public class Home extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         viewPager=(ViewPager)findViewById(R.id.sliderContainer);
         viewPager.setAdapter(new CustomSwipeAdapter(this));
@@ -71,24 +87,55 @@ public class Home extends AppCompatActivity
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!prefManager.isLoggedIn())
+                {
                     startLoginActivity();
+                }
+                else
+                {
+                    Intent intent=new Intent(Home.this,ProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
 
             }
         });
         /////////////////////////////////////////////////////
+
+
         self=this;
         rv=(RecyclerView)findViewById(R.id.rv);
         rv.setLayoutManager(new GridLayoutManager(this,2));
         rv.setItemAnimator(new DefaultItemAnimator());
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.item_offset);
+        rv.addItemDecoration(itemDecoration);
 ////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////
 
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         database=FirebaseDatabase.getInstance();
         ref=database.getReference().child("Events");
         mAuth=FirebaseAuth.getInstance();
+
+
         /////////////////////////////////////////////
+
+        ////////////////////////////////////////////////
+
+        mAuthListener=new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+                FirebaseUser user=mAuth.getCurrentUser();
+                if(user!=null){
+                    prefManager.setLoggedIn(true);
+                    String email=user.getEmail();
+                    nameView.setText(email);
+                }
+            }
+        };
+
         eventList=new ArrayList<>();
         //getData();
         //Downloader downloader= (Downloader) new Downloader(Home.this,rv).execute();
@@ -114,6 +161,9 @@ public class Home extends AppCompatActivity
                 event2.setTitle("Sketch Competition");
                 event2.setSocietyBelongTo("Footprints");
                 eventList.add(event2);
+                eventList.add(event2);
+                eventList.add(event2);
+                eventList.add(event2);
                 Log.d("Inside ref.onDatachange","After this HomeadapterLine");
                 HomeEventsAdapter homeEventsAdapter=new HomeEventsAdapter(self,eventList);
                 rv.setAdapter(homeEventsAdapter);
@@ -132,7 +182,8 @@ public class Home extends AppCompatActivity
     }
            public void startLoginActivity(){
                Intent i=new Intent(Home.this,Login_activity.class);
-               startActivityForResult(i,REQUEST_CODE);
+              // startActivityForResult(i,REQUEST_CODE);
+               startActivity(i);
            }
 
            @Override
@@ -143,7 +194,7 @@ public class Home extends AppCompatActivity
                        // do your stuff
 
                        System.out.println("On ACtivity result");
-                   String uid=data.getStringExtra("uid");
+                       String uid=data.getStringExtra("uid");
                        DatabaseReference studentref=database.getReference().child("students");
                        studentref.orderByChild("_Uid").equalTo(uid).addValueEventListener(new ValueEventListener() {
                            @Override
@@ -213,47 +264,51 @@ public class Home extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } */
-        else if (id == R.id.nav_share) {
+        else if (id == R.id.nav_footprint) {
             Intent i=new Intent(Home.this,SocietyDetail.class);
             startActivity(i);
         }
         //else if (id == R.id.nav_send) {
 //
 //        }
+        else if(id==R.id.nav_post_event){
+            Intent intent=new Intent(Home.this,PostEvent.class);
+            startActivity(intent);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public void getData(){
-
+    public void setNavMenu(){
+        navigationView.getMenu().setGroupVisible(R.id.admin_group,false);
+        navigationView.getMenu().findItem(R.id.nav_registered_students).setVisible(false);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(mAuth.getCurrentUser()!=null){
-            FirebaseUser user=mAuth.getCurrentUser();
-            DatabaseReference ref=database.getReference().child("students");
-            ref.orderByChild("_Uid").equalTo(user.getUid()).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Iterable<DataSnapshot> children= dataSnapshot.getChildren();
-                    String email=dataSnapshot.child("_Email").getValue(String.class);
-                    String name=dataSnapshot.child("_Name").getValue(String.class);
-                    String studentId=dataSnapshot.child("_StudentId").getValue(String.class);
 
-                    nameView.setText(name);
-                    studentView.setText(studentId);
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+        if(prefManager.isAdminLogIn()&& !prefManager.isStudentLogIn()){
+            HashMap<String,String> values=prefManager.getData();
+            prefManager.setLoggedIn(true);
+            nameView.setText(values.get(EMAIL));
+            navigationView.getMenu().setGroupVisible(R.id.admin_group,true);
+            navigationView.getMenu().findItem(R.id.nav_registered_students).setVisible(false);
+        }
+        else{
+            navigationView.getMenu().setGroupVisible(R.id.admin_group,false);
+            navigationView.getMenu().findItem(R.id.nav_registered_students).setVisible(false);
+            mAuth.addAuthStateListener(mAuthListener);
         }
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 }

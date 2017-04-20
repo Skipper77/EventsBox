@@ -1,6 +1,5 @@
 package com.example.dellpc.eventsbox;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -31,10 +30,10 @@ private ViewPager mviewPager;
 
     @Override
     public void sendDataBackToHome(String email, String uid) {
-        Intent intent =new Intent();
+        /*Intent intent =new Intent();
         intent.putExtra("email",email);
         intent.putExtra("uid",uid);
-        setResult(RESULT_OK,intent);
+        setResult(RESULT_OK,intent);*/
         finish();
     }
 

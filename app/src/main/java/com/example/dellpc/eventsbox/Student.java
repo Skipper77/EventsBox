@@ -16,7 +16,7 @@ private String _Name;
     private String _Email;
     private String _Status;
     private String _Uid;
-    private String _KeyId;
+    //private String _KeyId;
 
     public Student(){
 
@@ -34,7 +34,7 @@ private String _Name;
         this._Email = _Email;
         this._Status = _Status;
         this._Uid = _Uid;
-        this._KeyId = _KeyId;
+       // this._KeyId = _KeyId;
     }
 
     public String get_Uid() {
@@ -45,13 +45,13 @@ private String _Name;
         this._Uid = _Uid;
     }
 
-    public String get_KeyId() {
+    /*public String get_KeyId() {
         return _KeyId;
     }
 
     public void set_KeyId(String _KeyId) {
         this._KeyId = _KeyId;
-    }
+    }*/
 
     public String get_Branch() {
         return _Branch;

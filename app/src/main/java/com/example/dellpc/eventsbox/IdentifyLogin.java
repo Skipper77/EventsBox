@@ -6,4 +6,5 @@ package com.example.dellpc.eventsbox;
 
 public class IdentifyLogin {
     public static boolean studentLogin=true;
+    public static boolean isLoggedIn=false;
 }

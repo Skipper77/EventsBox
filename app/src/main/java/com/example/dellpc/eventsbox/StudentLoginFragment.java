@@ -1,11 +1,12 @@
 package com.example.dellpc.eventsbox;
 
 
-import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import static android.content.ContentValues.TAG;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +33,9 @@ private LinearLayout studentbtn;
     private EditText emailET;
     private EditText passwordET;
     private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     private ProgressDialog mProgressDialog;
+    private PrefManager prefManager;
     IntentListener intentListener;
     public StudentLoginFragment() {
         // Required empty public constructor
@@ -52,22 +57,41 @@ private LinearLayout studentbtn;
             }
         });*/
         mAuth=FirebaseAuth.getInstance();
+        mAuthListener=new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user=mAuth.getCurrentUser();
+                if(user==null){
+                    Toast.makeText(getActivity(),"Not Logged In",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    //FirebaseUser user=mAuth.getCurrentUser();
+                    String email = user.getEmail();
+                    String uid = user.getUid();
+                    Log.d(TAG, "onAuthStatechange " + user.getUid());
+                    Log.d("studentFrag Current user uid", uid);
+                    Log.d("studentFrag Current user email", email);
+
+                    // IdentifyLogin.studentLogin=true;
+                    backToHome(email, uid);
+                }
+            }
+        };
+
         mProgressDialog=new ProgressDialog(getActivity());
+        prefManager=new PrefManager(getActivity());
         this.mapping(v);
         this.listener(v);
+    return v;
+}
 
-
-
-        return v;
-
-
-    }
-       public void mapping(View v){
+public void mapping(View v){
            adminbtn=(LinearLayout)v.findViewById(R.id.adminbtn);
            studentbtn=(LinearLayout)v.findViewById(R.id.studentbtn);
            emailET=(EditText)v.findViewById(R.id.input_email);
            passwordET=(EditText)v.findViewById(R.id.input_password);
        }
+
     public void listener(View v){
         adminbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,24 +126,34 @@ private LinearLayout studentbtn;
     private void adminLogin(){
         String email=emailET.getText().toString().trim();
         String password=passwordET.getText().toString().trim();
-        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+        boolean checkAdminResult=checkIfAdmin(email,password);
+     /*   mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                mProgressDialog.dismiss();
+
                 if(task.isSuccessful()){
-                    FirebaseUser user=mAuth.getCurrentUser();
-                    String email=user.getEmail();
-                    String uid=user.getUid();
-                    IdentifyLogin.studentLogin=false;
-                    backToHome(email,uid);
-                   // getActivity().finish();
+                    mProgressDialog.dismiss();
+
+                    Toast.makeText(getActivity(),"Success",Toast.LENGTH_LONG).show();
                 }
                 else{
+                    mProgressDialog.dismiss();
                     Toast.makeText(getActivity(),"Invaid email or password",Toast.LENGTH_LONG).show();
                 }
 
             }
-        });
+        });*/
+
+        if(checkAdminResult){
+            mProgressDialog.dismiss();
+            prefManager.setStudentLogIn(false);
+            prefManager.setAdminLogIn(true);
+            prefManager.setData(email,"FOOTPRINTS");
+            backToHome(email,null);
+        }
+        else{
+            Toast.makeText(getActivity(),"Invalid email or password",Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -132,18 +166,21 @@ private LinearLayout studentbtn;
     private void studentLogin(){
         String email=emailET.getText().toString().trim();
         String password=passwordET.getText().toString().trim();
+
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                mProgressDialog.dismiss();
+
                 if(task.isSuccessful()){
-                    FirebaseUser user=mAuth.getCurrentUser();
+                    mProgressDialog.dismiss();
+                    /*FirebaseUser user=mAuth.getCurrentUser();
                     String email=user.getEmail();
                     String uid=user.getUid();
                     IdentifyLogin.studentLogin=true;
-                    backToHome(email,uid);
+                    backToHome(email,uid);*/
                 }
                 else{
+                    mProgressDialog.dismiss();
                     Toast.makeText(getActivity(),"Invaid email or password",Toast.LENGTH_LONG).show();
                 }
 
@@ -190,12 +227,38 @@ private LinearLayout studentbtn;
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            intentListener = (IntentListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnArticleSelectedListener");
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof IntentListener) {
+            intentListener = (IntentListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+    @Override
+    public void onStop(){
+        super.onStop();
+        mAuth.removeAuthStateListener(mAuthListener);
+    }
+
+    public boolean checkIfAdmin(String email,String password){
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String id=getResources().getString(R.string.getid);
+        String pass=getResources().getString(R.string.getPassword);
+        if(email.equals(id)&&password.equals(pass))
+            return true;
+        return false;
     }
 }

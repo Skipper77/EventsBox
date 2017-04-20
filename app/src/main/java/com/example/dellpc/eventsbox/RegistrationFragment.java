@@ -276,7 +276,9 @@ public void mapping(View v){
                        student.set_Year(map.get(5).toString());
                        student.set_Password(map.get(6).toString());
                        student.set_Phone(map.get(8).toString());
-                        mAuth.createUserWithEmailAndPassword(student.get_Email(), student.get_Password())
+
+
+                       mAuth.createUserWithEmailAndPassword(student.get_Email(), student.get_Password())
                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                    @Override
                                    public void onComplete(@NonNull Task<AuthResult> task) {
@@ -286,7 +288,7 @@ public void mapping(View v){
                                        String uid = mAuth.getCurrentUser().getUid();
                                        Log.d("In create User with Email ", "Getting uid");
                                        System.out.println("Uid : " + uid);
-                                       mAuth.signOut();
+                                     //  mAuth.signOut();
                                        self.insertIntoDatabase(uid, student);
 
                                    }
@@ -297,21 +299,24 @@ public void mapping(View v){
 
                    private void insertIntoDatabase(String uid,Student student){
                        System.out.println("Inside insert into database");
-                       DatabaseReference keyRef=mRef.push();
-                       String key=keyRef.getKey();
-                       System.out.println("key "+key);
+                      // DatabaseReference keyRef=mRef.push();
+                      // DatabaseReference keyRef=mRef.child(uid);
+                       //String key=keyRef.getKey();
+   //                    System.out.println("key "+key);
                        student.set_Uid(uid);
-                       student.set_KeyId(key);
+              //         student.set_KeyId(key);
 
-                   DatabaseReference kref= mRef.child(key).getRef();
+                   DatabaseReference kref= mRef.child(student.get_Uid()).getRef();
                        kref.setValue(student, new DatabaseReference.CompletionListener() {
                            @Override
                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                               progressDialog.dismiss();
+
                                if(databaseError!=null){
+                                   progressDialog.dismiss();
                                    Toast.makeText(getActivity(),"Email or student id already exist!!",Toast.LENGTH_LONG).show();
                                }
                                else{
+                                   progressDialog.dismiss();
                                    Toast.makeText(getActivity(),"Successfully registered",Toast.LENGTH_LONG).show();
                                    nameET.setText("");
                                    emailET.setText("");

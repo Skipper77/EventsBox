@@ -56,11 +56,13 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/eventText"/>
+                    android:id="@+id/eventText"
+                    android:text="All Events"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,6 +71,8 @@
                     android:id="@+id/rv"
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
+                    android:clipToPadding="false"
+                    android:padding="@dimen/item_offset"
                     />
             </LinearLayout>
         </LinearLayout>

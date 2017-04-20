@@ -25,6 +25,22 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_home">Home</string>
+    <string name="getid">footprints.society@evento.com</string>
+    <string name="getPassword">footprints2017</string>
     <string name="title_activity_society_detail">SocietyDetail</string>
     <string name="title_activity_event_details">EventDetails</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_post_event">PostEvent</string>
+
+
+    <!--Strings related to PostEvent-->
+    <string name="title">Title</string>
+    <string name="desc">Description</string>
+    <string name="society">Society</string>
+    <string name="venue">Venue</string>
+    <string name="fromDate">FromDate</string>
+    <string name="endDate">EndDate</string>
+    <string name="registerOption">RegisterOption</string>
+
+
 </resources>

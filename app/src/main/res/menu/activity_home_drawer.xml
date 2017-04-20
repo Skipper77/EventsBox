@@ -5,7 +5,8 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@android:drawable/btn_star_big_on"
-            android:title="Home" />
+            android:title="Home"
+            android:visible="true"/>
         <!--<item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
@@ -23,14 +24,56 @@
     <item android:title="Societies">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_footprint"
                 android:icon="@drawable/ic_menu_share"
                 android:title="Footprints" />
+            <item
+                android:id="@+id/nav_conatus"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Conatus" />
+            <item
+                android:id="@+id/nav_horizon"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Horizon" />
             <!--<item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Send" />-->
+
         </menu>
     </item>
 
+    <group
+        android:visible="false"
+        android:id="@+id/admin_group"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_post_event"
+            android:icon="@android:drawable/btn_star_big_on"
+            android:title="Create Event"
+            />
+        <item
+            android:id="@+id/nav_my_event"
+            android:icon="@android:drawable/btn_star_big_on"
+            android:title="My Events"
+            />
+        <item
+            android:id="@+id/nav_registered_students"
+            android:icon="@android:drawable/btn_star_big_on"
+            android:title="Registered Students"
+            android:visible="false"
+            />
+
+    </group>
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@android:drawable/btn_star_big_on"
+            android:title="Sign out"
+            >
+
+        </item>
+    </group>
 </menu>

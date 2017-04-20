@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:id="@+id/descTV"
             android:padding="10dp"
-            android:maxLines="500"
+            android:maxLines="1000"
             android:textColor="@android:color/white"
             android:scrollbars="vertical"
             ></TextView>

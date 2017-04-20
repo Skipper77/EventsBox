@@ -40,6 +40,14 @@
         <activity
             android:name=".EventDetails"
             android:label="@string/title_activity_event_details"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PostEvent"
+            android:label="@string/title_activity_post_event"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
